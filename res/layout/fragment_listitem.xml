@@ -1,0 +1,52 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_card"
+    android:padding="10dp" >
+	
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:id="@+id/linearLayout_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/activity_vertical_margin" >
+
+            <EditText
+                android:id="@+id/txtBusSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:hint="Tìm nhanh"
+                android:singleLine="true"
+                android:textColor="#0099cb"
+                android:textSize="16sp" >
+            </EditText>
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/lvItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linearLayout_1"
+            android:dividerHeight="1dp" >
+        </ListView>
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linearLayout_1"
+            android:gravity="center"
+            android:paddingTop="@dimen/activity_vertical_margin" />
+    </RelativeLayout>
+
+
+
+</FrameLayout>

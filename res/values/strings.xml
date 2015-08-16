@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Easy Bus</string>
+    <string name="action_search">Tìm kiếm</string>
+    <string name="search_hint">Địa danh</string>
+
+    <string-array name="slidemenu_array">
+        <item>Thông tin tuyến buýt</item>
+        <item>Tìm đường</item>
+        <item>Bến đỗ gần bạn</item>
+        <item>Chọn thành phố</item>
+        <item>Thông tin tác giả</item>
+        <item>Thoát</item>
+    </string-array>
+    <string name="email"><url><b><u>caotuandung@gmail.com</u></b></url></string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="action_websearch">Tìm kiếm trong mục</string>
+    <string name="app_not_available">Sorry, there\'s no web browser available</string>
+    <string name="hcm">Hồ Chí Minh</string>
+    <string name="hn">Hà Nội</string>
+    <string name="viewinmap">Xem trên bản đồ</string>
+    <string name="title_activity_choose_city">Chọn thành phố</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+	
+	<string name="choose_city_title">Chọn thành phố</string>
+    <string name="choose_city_text">Danh sách thành phố</string>
+</resources>

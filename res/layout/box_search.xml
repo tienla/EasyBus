@@ -1,0 +1,101 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <ImageButton
+        android:id="@+id/btnTrace1"
+        android:layout_width="32dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="14dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/trace_icon" />
+
+    <AutoCompleteTextView
+        android:id="@+id/txtStart"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignTop="@+id/btnTrace1"
+        android:layout_toLeftOf="@+id/btnSwap"
+        android:layout_toRightOf="@+id/btnTrace1"
+        android:ems="10"
+        android:hint="Điểm đầu"
+        android:imeOptions="actionNext"
+        android:singleLine="true"
+        android:textColor="#000000" >
+
+        <requestFocus />
+    </AutoCompleteTextView  >
+     <Button
+        android:id="@+id/clear_start"
+        android:layout_width="30dip"
+        android:layout_height="30dip"
+        android:layout_alignBaseline="@+id/txtStart"
+        android:layout_alignBottom="@+id/txtStart"
+        android:layout_alignRight="@+id/txtStart"
+        android:background="@drawable/clear" />
+
+    <ImageButton
+        android:id="@+id/btnSwap"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/txtStart"
+        android:background="@drawable/round_button"
+        android:scaleType="fitCenter"
+        android:src="@drawable/swap_button"/>
+
+    <ImageButton
+        android:id="@+id/btnTrace2"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignLeft="@+id/btnTrace1"
+        android:layout_below="@+id/btnTrace1"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/trace_icon" />
+
+    <AutoCompleteTextView
+        android:id="@+id/txtEnd"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/txtStart"
+        android:layout_alignRight="@+id/txtStart"
+        android:layout_alignTop="@+id/btnTrace2"
+        android:ems="10"
+        android:hint="Điểm cuối"
+        android:imeOptions="actionSearch"
+        android:singleLine="true"
+        android:textColor="#000000" />
+
+    <ImageButton
+        android:id="@+id/btnSearch"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignLeft="@+id/btnSwap"
+        android:layout_alignTop="@+id/txtEnd"
+        android:background="@drawable/round_button"
+        android:scaleType="fitCenter"
+        android:src="@drawable/action_search" />
+
+    <Button
+        android:id="@+id/clear_end"
+        android:layout_width="30dip"
+        android:layout_height="30dip"
+        android:layout_alignBaseline="@+id/txtEnd"
+        android:layout_alignBottom="@+id/txtEnd"
+        android:layout_alignRight="@+id/txtEnd"
+        android:background="@drawable/clear" />
+
+</RelativeLayout>
+
+<!-- 
+
+
+ -->

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/background_dialog"
+    android:layout_margin="40dip">
+
+    <TextView android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:textSize="10pt"
+        android:textColor="#bbb"
+        android:text="THANKS YOU"
+        android:id="@+id/dialog_title"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_margin="10dip"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/dialog_title"
+        android:textSize="8pt"
+        android:gravity="center"
+        android:id="@+id/dialog_textView"
+        android:text="Cảm ơn bạn đã gửi phản hồi cho chúng tôi. Chúng tôi sẽ khắc phục trong thời gian ngắn nhất."/>
+    <Button android:layout_width="120dip"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dip"
+        android:layout_below="@+id/dialog_textView"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_btn"
+        android:id="@+id/btn_ok"
+        android:text="OK"/>
+    <ImageView android:layout_width="fill_parent"
+        android:layout_height="30dip"
+        android:background="#fefefe"
+        android:layout_below="@id/btn_ok"/>
+
+</RelativeLayout>

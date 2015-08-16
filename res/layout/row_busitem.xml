@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dp"
+    android:background="@drawable/list_pressed_background" >
+
+    <TextView
+        android:id="@+id/tvId"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/bus_code"
+        android:gravity="center"
+        android:layout_gravity ="center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/white" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" 
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+    		android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#313131" />
+
+        <TextView
+            android:id="@+id/tvCost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+    		android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#767676" />
+    </LinearLayout>
+
+</LinearLayout>
+<!-- 
+    <ImageView
+        android:id="@+id/imgCaret"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/caret"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"/>
+ -->

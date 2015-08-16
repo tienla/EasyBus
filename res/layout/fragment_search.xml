@@ -1,0 +1,35 @@
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:divider="@drawable/divider">
+        
+	    <TextView
+	        android:id="@+id/textView1"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        style="@style/MyBoldTextStyle"
+	        android:textColor="@color/white"
+	        android:background="@color/red_light"
+	        android:text="Kết quả tìm kiếm"/>
+	
+	    <ListView
+	        android:id="@+id/lvRouting"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:background="@color/gray_light"
+	        android:dividerHeight="4dp">
+	    </ListView>
+
+    </LinearLayout>
+
+<!-- 
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_card" >
+</FrameLayout>
+ -->

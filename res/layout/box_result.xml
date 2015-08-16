@@ -1,0 +1,81 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    android:padding="16dp" >
+
+    <TextView
+        android:id="@+id/tvFrom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="From: "
+		style="@style/MyBoldTextStyle"/>
+
+    <TextView
+        android:id="@+id/tvTo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvFrom"
+        android:layout_alignLeft="@id/tvFrom"
+        android:text="To: "
+		style="@style/MyBoldTextStyle" />
+
+    <Button
+        android:id="@+id/btnNew"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvTo"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/tvFrom"
+        android:text="New" />
+
+    <View
+        android:id="@+id/separator"
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:layout_below="@id/tvTo"
+        android:layout_centerVertical="true"
+        android:background="@color/gray_light" />
+
+    <TextView
+        android:id="@+id/tvHop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/separator"
+		style="@style/MyBoldTextStyle"
+        android:text="Total hops:" />
+    
+    <TextView
+        android:id="@+id/tvCost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tvHop"
+        android:layout_below="@id/tvHop"
+		style="@style/MyBoldTextStyle"
+        android:text="Gia ve: 0 vnd" />
+    
+    <TextView
+        android:id="@+id/tvDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:layout_alignParentRight="true"
+        android:layout_below="@id/separator"
+        android:text="0km - 0min" />
+    
+    <TextView
+        android:id="@+id/tvMore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:layout_alignRight="@id/tvDistance"
+        android:layout_below="@id/tvDistance"
+        android:textStyle="bold|italic"
+        android:textColor="#ff0000"
+        android:text="tap for detail"
+        android:clickable="true" />
+
+</RelativeLayout>
