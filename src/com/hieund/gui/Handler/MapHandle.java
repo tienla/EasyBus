@@ -26,6 +26,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.hieund.R;
 import com.hieund.Helper.BusHelper;
+import com.hieund.Util.BusFunction;
 import com.hieund.Util.Constances;
 import com.hieund.gui.Activity.MainActivity;
 import com.hieund.gui.Object.Nodes;
@@ -75,6 +76,8 @@ public final class MapHandle{
 		}
 
 		if (vector != null) showBusStop(vector);
+		BusFunction.zoomToFitMarkers(markers,MainActivity.googleMap);
+
 	}
 	
 	public MapHandle(Bundle b, Vector<Nodes> vector, FragmentActivity activity) {
@@ -110,6 +113,7 @@ public final class MapHandle{
 			MapHandle.goNodeList = busHelper.getNodeInfo(MapHandle.id, "go");
 			MapHandle.reNodeList = busHelper.getNodeInfo(MapHandle.id, "re");
 		}
+		BusFunction.zoomToFitMarkers(markers,MainActivity.googleMap);
 	}
 
 	private void showBusStop(Vector<Nodes> vector2) {

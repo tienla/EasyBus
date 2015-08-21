@@ -352,11 +352,12 @@ public class MainActivity extends SherlockFragmentActivity implements
 
 		return super.onOptionsItemSelected(item);
 	}
-
+	boolean exit = false;
 	@Override
 	public void onBackPressed() {
 		
 		if (isMapOn) {
+			exit = false;
 			if (navMode){
 				showNavBox(true);
 				showContent(false);
@@ -367,9 +368,21 @@ public class MainActivity extends SherlockFragmentActivity implements
 			
 		} else {
 			FragmentManager fm = getSupportFragmentManager();
-			if (fm.getBackStackEntryCount() > 0)
+			if (fm.getBackStackEntryCount() > 2)
 				fm.popBackStack();
 			else{
+				if (!exit){
+					this.setGoReButtonEnabled(true);
+					exit = true;
+					ListItemFragment fragment = new ListItemFragment();
+					Bundle bundle = new Bundle();
+					bundle.putParcelable("handler", handler);
+					fragment.setArguments(bundle);
+
+					getSupportFragmentManager().beginTransaction()
+							.replace(R.id.content, fragment).commit();
+
+				}else{
 				new AlertDialog.Builder(this)
 		        .setIcon(android.R.drawable.ic_dialog_alert)
 		        .setTitle("Closing App")
@@ -389,6 +402,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 				    })
 				    .setNegativeButton("No", null)
 				    .show();
+				}
 			}
 		}
 	}
@@ -481,10 +495,23 @@ public class MainActivity extends SherlockFragmentActivity implements
 //					.replace(R.id.content,
 //							PageSlidingTabStripFragment.newInstance(),
 //							PageSlidingTabStripFragment.TAG).commit();
+			
+
 			this.setGoReButtonEnabled(true);
-			fragment = new NearBusFragment();
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.content, fragment).commit();
+			try {
+				Thread.sleep(300);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			new Runnable() {
+				public void run() {
+					SherlockFragment fragment1 = new NearBusFragment();
+					getSupportFragmentManager().beginTransaction()
+							.replace(R.id.content, fragment1).commit();
+
+				}
+			};
 			break;
 		case CAIDAT:
 			//@duy_note activity_choose_city called again
