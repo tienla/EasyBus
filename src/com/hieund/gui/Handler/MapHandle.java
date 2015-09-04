@@ -53,6 +53,7 @@ public final class MapHandle{
 		MainActivity.showContent(false);
 		googleMap.clear();
         v2GetRouteDirection = new GMapV2GetRouteDirection();
+		markers.clear();
 
 
 		String goGeo = b.getString("goGeo");
@@ -85,6 +86,7 @@ public final class MapHandle{
 		busHelper = BusHelper.getInstance(activity);	
 		MainActivity.showContent(false);
 		googleMap.clear();
+		markers.clear();
         v2GetRouteDirection = new GMapV2GetRouteDirection();
 
 
@@ -139,18 +141,21 @@ public final class MapHandle{
 						goNodeList.get(j).getGeo()).draggable(false).title(""+goNodeList.get(j).getStopName()).snippet("Bến đỗ: "+goNodeList.get(j).getsetFleetOver()));
 				startMarker.showInfoWindow();
 				startMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin_start));
-				
+				markers.add(startMarker);
 				
 			}else if (j == goNodeList.size() - 1){
 				endMarker = googleMap.addMarker(new MarkerOptions().position(
 						goNodeList.get(j).getGeo()).draggable(false).title(""+goNodeList.get(j).getStopName()).snippet("Bến đỗ: "+goNodeList.get(j).getsetFleetOver()));
 				endMarker.showInfoWindow();
 				endMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin_end));
+				markers.add(endMarker);
+
 			}else{
 				midMarker = googleMap.addMarker(new MarkerOptions().position(
 						goNodeList.get(j).getGeo()).draggable(false).title(""+goNodeList.get(j).getStopName()).snippet("Bến đỗ: "+goNodeList.get(j).getsetFleetOver()));
 								midMarker.showInfoWindow();
 				midMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.bus_pin));
+				markers.add(midMarker);
 			}
 		}
 		googleMap.setOnMarkerClickListener(new OnMarkerClickListener() {
@@ -166,6 +171,8 @@ public final class MapHandle{
 		});
 		MainActivity.zoomMapTo(startMarker.getPosition());
 		poly1 = googleMap.addPolyline(rectLine1);
+		BusFunction.zoomToFitMarkers(markers,MainActivity.googleMap);
+
 	}
 	
 	public void showRePath(){
@@ -184,18 +191,23 @@ public final class MapHandle{
 						reNodeList.get(j).getGeo()).draggable(false).title(""+reNodeList.get(j).getStopName()).snippet("Bến đỗ: "+reNodeList.get(j).getsetFleetOver()));
 				startMarker.showInfoWindow();
 				startMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin_start));
-				
+				markers.add(startMarker);
+
 				
 			}else if (j == reNodeList.size() - 1){
 				endMarker = googleMap.addMarker(new MarkerOptions().position(
 						reNodeList.get(j).getGeo()).draggable(false).title(""+reNodeList.get(j).getStopName()).snippet("Bến đỗ: "+reNodeList.get(j).getsetFleetOver()));
 				endMarker.showInfoWindow();
 				endMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin_end));
+				markers.add(endMarker);
+
 			}else{
 				midMarker = googleMap.addMarker(new MarkerOptions().position(
 						reNodeList.get(j).getGeo()).draggable(false).title(""+reNodeList.get(j).getStopName()).snippet("Bến đỗ: "+reNodeList.get(j).getsetFleetOver()));
 				midMarker.showInfoWindow();
 				midMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.bus_pin));
+				markers.add(midMarker);
+
 			}
 		}
 		
@@ -212,6 +224,8 @@ public final class MapHandle{
 		});
 		MainActivity.zoomMapTo(startMarker.getPosition());
 		poly2 = googleMap.addPolyline(rectLine1);
+		BusFunction.zoomToFitMarkers(markers,MainActivity.googleMap);
+
 	}
 
 
@@ -233,18 +247,20 @@ public final class MapHandle{
 						nodeList.get(j).getGeo()).draggable(false).title(""+nodeList.get(j).getStopName()).snippet("Bến đỗ: "+nodeList.get(j).getsetFleetOver()));
 				startMarker.showInfoWindow();
 				startMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin_start));
-				
+				markers.add(startMarker);
 				
 			}else if (j == nodeList.size() - 1){
 				endMarker = googleMap.addMarker(new MarkerOptions().position(
 						nodeList.get(j).getGeo()).draggable(false).title(""+nodeList.get(j).getStopName()).snippet("Bến đỗ: "+nodeList.get(j).getsetFleetOver()));
 				endMarker.showInfoWindow();
 				endMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin_end));
+				markers.add(endMarker);
 			}else{
 				midMarker = googleMap.addMarker(new MarkerOptions().position(
 						nodeList.get(j).getGeo()).draggable(false).title(""+nodeList.get(j).getStopName()).snippet("Bến đỗ: "+nodeList.get(j).getsetFleetOver()));
 				midMarker.showInfoWindow();
 				midMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.bus_pin));
+				markers.add(midMarker);
 			}
 		}
 		

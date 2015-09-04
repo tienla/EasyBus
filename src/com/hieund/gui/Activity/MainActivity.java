@@ -498,20 +498,15 @@ public class MainActivity extends SherlockFragmentActivity implements
 			
 
 			this.setGoReButtonEnabled(true);
-			try {
-				Thread.sleep(300);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			new Runnable() {
-				public void run() {
-					SherlockFragment fragment1 = new NearBusFragment();
+		    Handler mHandler = new Handler();
+		    mHandler.postDelayed(new Runnable() {
+	            public void run() {
+	            	SherlockFragment fragment1 = new NearBusFragment();
 					getSupportFragmentManager().beginTransaction()
-							.replace(R.id.content, fragment1).commit();
-
-				}
-			};
+							.replace(R.id.content, fragment1).commit();	            }
+	        }, 300);
+				
+			
 			break;
 		case CAIDAT:
 			//@duy_note activity_choose_city called again
