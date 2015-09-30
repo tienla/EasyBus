@@ -1,25 +1,29 @@
 package com.hieund.gui.Activity;
 
-import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.hieund.R;
+import com.hieund.gui.Error.Camon;
 
 /**
  * Created by Minh vuong on 30/06/2015.
  */
-public class SendEmailActivity extends Activity {
+public class SendEmailFragment extends SherlockFragment {
 
     private EditText diemDauEditText;
     private EditText diemCuoiEditText;
@@ -36,37 +40,39 @@ public class SendEmailActivity extends Activity {
     Dialog dialog;
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        Log.i("aaaaaa", "fad");
-        setContentView(R.layout.activity_send_email);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View rootView = inflater.inflate(R.layout.activity_send_email, container,
+				false);
 
-        diemDauEditText = (EditText) findViewById(R.id.diem_dau);
-        diemCuoiEditText = (EditText) findViewById(R.id.diem_cuoi);
-        thoiGianEditText = (EditText) findViewById(R.id.thoi_gian);
-        tanSuatEditText = (EditText) findViewById(R.id.tan_suat);
-        chiPhiEditText = (EditText) findViewById(R.id.chi_phi);
-        luotDiEditText = (EditText) findViewById(R.id.luot_di);
-        luotVeEditText = (EditText) findViewById(R.id.luot_ve);
-        ghiChuEditText = (EditText) findViewById(R.id.ghi_chu);
-        tenTextView = (TextView) findViewById(R.id.ten);
+        diemDauEditText = (EditText) rootView.findViewById(R.id.diem_dau);
+        diemCuoiEditText = (EditText) rootView.findViewById(R.id.diem_cuoi);
+        thoiGianEditText = (EditText) rootView.findViewById(R.id.thoi_gian);
+        tanSuatEditText = (EditText) rootView.findViewById(R.id.tan_suat);
+        chiPhiEditText = (EditText) rootView.findViewById(R.id.chi_phi);
+        luotDiEditText = (EditText) rootView.findViewById(R.id.luot_di);
+        luotVeEditText = (EditText) rootView.findViewById(R.id.luot_ve);
+        ghiChuEditText = (EditText) rootView.findViewById(R.id.ghi_chu);
+        tenTextView = (TextView) rootView.findViewById(R.id.ten);
 
-        tenTextView.setText("Tuyến số " + getIntent().getStringExtra("code"));
-        diemDauEditText.setText(getIntent().getStringExtra("name").split(" - ")[0]);
-        diemCuoiEditText.setText(getIntent().getStringExtra("name").split(" - ")[1]);
-        tanSuatEditText.setText(getIntent().getStringExtra("frequency"));
-        thoiGianEditText.setText(getIntent().getStringExtra("operationTime"));
-        chiPhiEditText.setText(getIntent().getStringExtra("cost"));
-        luotDiEditText.setText(getIntent().getStringExtra("go"));
-        luotVeEditText.setText(getIntent().getStringExtra("re"));
-
-        sendBtn = (Button) findViewById(R.id.btn_send);
-        cancelBtn = (Button) findViewById(R.id.btn_cancel);
-
+        tenTextView.setText("Tuyến số " + getArguments().getString("code"));
+        diemDauEditText.setText(getArguments().getString("name").split(" - ")[0]);
+        diemCuoiEditText.setText(getArguments().getString("name").split(" - ")[1]);
+        tanSuatEditText.setText(getArguments().getString("frequency"));
+        thoiGianEditText.setText(getArguments().getString("operationTime"));
+        chiPhiEditText.setText(getArguments().getString("cost"));
+        luotDiEditText.setText(getArguments().getString("go"));
+        luotVeEditText.setText(getArguments().getString("re"));
+        
+        sendBtn = (Button) rootView.findViewById(R.id.btn_send);
+        cancelBtn = (Button) rootView.findViewById(R.id.btn_cancel);
+        cancelBtn.requestFocus();
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+//                finish();
+            	Intent i = new Intent(getActivity(), MainActivity.class);
+            	startActivity(i);
             }
         });
 
@@ -75,9 +81,14 @@ public class SendEmailActivity extends Activity {
             public void onClick(View v) {
                 Sender sender = new Sender();
                 sender.execute();
+                SherlockFragment fragment = new Camon();
+                fragment.setArguments(getArguments());
 
+    			getFragmentManager().beginTransaction()
+    					.add(getId(), fragment).addToBackStack("fragBack").commit();
             }
         });
+        return rootView;
     }
 
     private class Sender extends AsyncTask<Void, Void, String> {
@@ -98,19 +109,19 @@ public class SendEmailActivity extends Activity {
                 return "co o de trong";
 
             body = tenTextView.getText().toString() + "\n\n";
-            if(!diemDauEditText.getText().toString().equals(getIntent().getStringExtra("name").split(" - ")[0]))
+            if(!diemDauEditText.getText().toString().equals(getArguments().getString("name").split(" - ")[0]))
                 body = body + "Điểm đầu: " + diemDauEditText.getText() + "\n\n";
-            if(!diemCuoiEditText.getText().toString().equals(getIntent().getStringExtra("name").split(" - ")[1]))
+            if(!diemCuoiEditText.getText().toString().equals(getArguments().getString("name").split(" - ")[1]))
                 body = body + "Điểm cuối: " + diemCuoiEditText.getText() + "\n\n";
-            if(!thoiGianEditText.getText().toString().equals(getIntent().getStringExtra("operationTime")))
+            if(!thoiGianEditText.getText().toString().equals(getArguments().getString("operationTime")))
                 body = body + "Thời gian hoạt động: " + thoiGianEditText.getText() + "\n\n";
-            if(!tanSuatEditText.getText().toString().equals(getIntent().getStringExtra("frequency")))
+            if(!tanSuatEditText.getText().toString().equals(getArguments().getString("frequency")))
                 body = body + "Tần suất: " + tanSuatEditText.getText() + "\n\n";
-            if(!chiPhiEditText.getText().toString().equals(getIntent().getStringExtra("cost")))
+            if(!chiPhiEditText.getText().toString().equals(getArguments().getString("cost")))
                 body = body + "Chi phí: " + chiPhiEditText.getText() + "\n\n";
-            if(!luotDiEditText.getText().toString().equals(getIntent().getStringExtra("go")))
+            if(!luotDiEditText.getText().toString().equals(getArguments().getString("go")))
                 body = body + "Lượt đi: " + luotDiEditText.getText() + "\n\n";
-            if(!luotVeEditText.getText().toString().equals(getIntent().getStringExtra("re")))
+            if(!luotVeEditText.getText().toString().equals(getArguments().getString("re")))
                 body = body + "Lượt về: " + luotVeEditText.getText() + "\n\n";
             if(!ghiChuEditText.getText().toString().equals(""))
                 body = body + "Ghi chú: " + ghiChuEditText.getText() + "\n\n";
@@ -137,7 +148,7 @@ public class SendEmailActivity extends Activity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 
-            dialog = new Dialog(SendEmailActivity.this);
+            dialog = new Dialog(getActivity());
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.send_email_dialog);
             dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
@@ -168,7 +179,6 @@ public class SendEmailActivity extends Activity {
                     @Override
                     public void onClick(View v) {
                         dialog.dismiss();
-                        finish();
                     }
                 });
             }

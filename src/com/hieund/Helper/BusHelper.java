@@ -574,7 +574,7 @@ public class BusHelper extends SQLiteOpenHelper {
  
     	//Open the database
         String myPath = DB_PATH + DATABASE_NAME;
-    	myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
+    	myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.CREATE_IF_NECESSARY| SQLiteDatabase.OPEN_READONLY);
  
     }
  

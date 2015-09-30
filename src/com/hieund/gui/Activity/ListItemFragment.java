@@ -58,6 +58,7 @@ public class ListItemFragment extends SherlockFragment {
 		lv.setAdapter(busAdapter);
 		lv.setOnItemClickListener(onClicked);
 		lv.requestFocus();
+		getActivity().setTitle("Thông tin tuyến buýt");
 //		registerForContextMenu(lv);
 		
 //		btnSearchBus = (ImageButton)rootView.findViewById(R.id.btnSearchBus);
@@ -117,7 +118,7 @@ public class ListItemFragment extends SherlockFragment {
 			fragment.setArguments(args);
 
 			getFragmentManager().beginTransaction()
-					.add(getId(), fragment).addToBackStack("fragBack").commit();
+					.replace(getId(), fragment).commit();
 
 			Message msg = new Message();
 			msg.what=1;

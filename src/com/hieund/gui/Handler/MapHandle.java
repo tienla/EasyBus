@@ -384,14 +384,14 @@ public final class MapHandle{
 			}
 		});
 
-		if (!isOnline)
+//		if (!isOnline)
 			poly3 = googleMap.addPolyline(rectLine1);
-		else{
-	        fromPosition = startMarker.getPosition();
-	        toPosition = endMarker.getPosition();
-			GetRouteTask getRoute = new GetRouteTask();
-	        getRoute.execute();
-		}
+//		else{
+//	        fromPosition = startMarker.getPosition();
+//	        toPosition = endMarker.getPosition();
+//			GetRouteTask getRoute = new GetRouteTask();
+//	        getRoute.execute();
+//		}
 	}
 
 	private LatLng stringToLatLng(String string) {
@@ -557,21 +557,21 @@ public final class MapHandle{
 		markers.add(startMarker);
 		markers.add(endMarker);
 		
-		if (!isOnline)
+//		if (!isOnline)
 			poly3 = googleMap.addPolyline(rectLine1);
-		else{
-			//poly3 = googleMap.addPolyline(rectLine1);
-			for(int i=0; i < rectLine1.getPoints().size();i++)
-				googlePoints.add(rectLine1.getPoints().get(i));
-//				if (i < rectLine1.getPoints().size()-1){
-//					fromPosition = rectLine1.getPoints().get(i);
-//			        toPosition = rectLine1.getPoints().get(i+1);
-//					GetRouteTask getRoute = new GetRouteTask();
-//			        getRoute.execute();
-//				}
-			GetRouteTask getRoute = new GetRouteTask();
-	        getRoute.execute();
-		}
+//		else{
+//			//poly3 = googleMap.addPolyline(rectLine1);
+//			for(int i=0; i < rectLine1.getPoints().size();i++)
+//				googlePoints.add(rectLine1.getPoints().get(i));
+////				if (i < rectLine1.getPoints().size()-1){
+////					fromPosition = rectLine1.getPoints().get(i);
+////			        toPosition = rectLine1.getPoints().get(i+1);
+////					GetRouteTask getRoute = new GetRouteTask();
+////			        getRoute.execute();
+////				}
+//			GetRouteTask getRoute = new GetRouteTask();
+//	        getRoute.execute();
+//		}
 			
 		
 	}

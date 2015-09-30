@@ -6,29 +6,31 @@ package com.hieund.gui.Activity;
     import android.util.Log;
 
     import java.util.Date;
-    import java.util.Properties;
-    import javax.activation.CommandMap;
-    import javax.activation.DataHandler;
-    import javax.activation.DataSource;
-    import javax.activation.FileDataSource;
-    import javax.activation.MailcapCommandMap;
-    import javax.mail.BodyPart;
-    import javax.mail.MessagingException;
-    import javax.mail.Multipart;
-    import javax.mail.PasswordAuthentication;
-    import javax.mail.Session;
-    import javax.mail.Transport;
-    import javax.mail.internet.AddressException;
-    import javax.mail.internet.InternetAddress;
-    import javax.mail.internet.MimeBodyPart;
-    import javax.mail.internet.MimeMessage;
-    import javax.mail.internet.MimeMultipart;
+import java.util.Properties;
+import javax.activation.CommandMap;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.activation.MailcapCommandMap;
+import javax.mail.BodyPart;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+
+import com.google.android.gms.internal.em;
 
 
     public class Mail extends javax.mail.Authenticator {
 
         private static final String EMAIL = "bus.VietNam.report@gmail.com";
-        private static final String EMAIL_TO = "bus.VietNam.report@gmail.com";
+        private String email_to = "bus.VietNam.report@gmail.com";
         private static final String PASSWORD = "12365478a";
         private static final String SUBJECT = "Bao loi thong tin VietNamBus";
 
@@ -61,7 +63,7 @@ package com.hieund.gui.Activity;
             _user = EMAIL; // username
             _pass = PASSWORD; // password
             _from = EMAIL; // email sent from
-            _to[0] = EMAIL_TO;
+            _to[0] = email_to;
             _subject = SUBJECT; // email subject
             _body = "jhklhjk;gjhkf;kkh;l"; // email body
 
@@ -85,6 +87,14 @@ package com.hieund.gui.Activity;
 
             _user = user;
             _pass = pass;
+        }
+        
+        public Mail(String sender) {
+            this();
+
+        	this.email_to = sender;
+            _to[0] = email_to;
+
         }
 
         public boolean send() {
@@ -211,6 +221,14 @@ package com.hieund.gui.Activity;
         public void setBody(String _body) {
             this._body = _body;
         }
+
+		public String getEmailTo() {
+			return email_to;
+		}
+
+		public void setEmailTo(String email_to) {
+			this.email_to = email_to;
+		}
 
 
     }

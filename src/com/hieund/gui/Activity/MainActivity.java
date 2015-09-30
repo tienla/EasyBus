@@ -82,6 +82,7 @@ import com.hieund.gui.Object.ResultSearchObject;
 import java.util.ArrayList;
 import java.util.Vector;
 
+@SuppressWarnings("deprecation")
 public class MainActivity extends SherlockFragmentActivity implements
 		LocationListener, FragmentCommunicator {
 	enum MenuEnum {
@@ -120,7 +121,6 @@ public class MainActivity extends SherlockFragmentActivity implements
 
 		@Override
 		public void onInfoWindowClick(Marker arg0) {
-			// TODO Auto-generated method stub
 			Bundle args = new Bundle();
 			String address = arg0.getTitle();
 			args.putString("address", address);
@@ -368,8 +368,16 @@ public class MainActivity extends SherlockFragmentActivity implements
 			
 		} else {
 			FragmentManager fm = getSupportFragmentManager();
-			if (fm.getBackStackEntryCount() > 2)
+			if (fm.getBackStackEntryCount() > 0){
+				System.out.println("BackStack:"+fm.getBackStackEntryCount());
+
 				fm.popBackStack();
+				exit = false;
+//				Fragment f = fm.findFragmentByTag("fragBack")
+//				if (f instanceof ListItemFragment) {
+//					fm.popBackStack();
+//				}
+			}
 			else{
 				if (!exit){
 					this.setGoReButtonEnabled(true);
@@ -378,11 +386,19 @@ public class MainActivity extends SherlockFragmentActivity implements
 					Bundle bundle = new Bundle();
 					bundle.putParcelable("handler", handler);
 					fragment.setArguments(bundle);
-
+					Message msg = new Message();
+					msg.what=2;
+					try{
+						handler.sendMessage(msg);
+					}catch (NullPointerException e){
+						e.printStackTrace();
+					}
 					getSupportFragmentManager().beginTransaction()
 							.replace(R.id.content, fragment).commit();
 
 				}else{
+					exit = false;
+
 				new AlertDialog.Builder(this)
 		        .setIcon(android.R.drawable.ic_dialog_alert)
 		        .setTitle("Closing App")
@@ -466,7 +482,13 @@ public class MainActivity extends SherlockFragmentActivity implements
 			showNavBox(false);
 		} else
 			showNavBox(true);
-
+		Message msg = new Message();
+		msg.what=2;
+		try{
+			handler.sendMessage(msg);
+		}catch (NullPointerException e){
+			e.printStackTrace();
+		}
 		switch (curItem) {
 		case THONGTINBUS: // thong tin tuyen bus
 			this.setGoReButtonEnabled(true);
@@ -474,7 +496,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 			Bundle bundle = new Bundle();
 			bundle.putParcelable("handler", handler);
 			fragment.setArguments(bundle);
-
+			this.setTitle("Thông tin tuyến buýt");
 			getSupportFragmentManager().beginTransaction()
 					.replace(R.id.content, fragment).commit();
 			break;
@@ -482,6 +504,8 @@ public class MainActivity extends SherlockFragmentActivity implements
 		case TIMDUONG: // che do ban do
 			new MapHandle();
 			this.setGoReButtonEnabled(false);
+			this.setTitle("Tìm đường");
+
 			Fragment fbox = new SearchBox(getBaseContext());
 			getSupportFragmentManager().beginTransaction()
 					.replace(R.id.navbox, fbox).commit();

@@ -1,5 +1,6 @@
 package com.hieund.gui.Activity;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.database.Cursor;
@@ -26,6 +27,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.hieund.R;
 import com.hieund.Helper.BusHelper;
 import com.hieund.Util.Constances;
+import com.hieund.gui.Error.Baoloi;
 import com.hieund.gui.Handler.MapHandle;
 
 public class BusDetailFragment extends SherlockFragment {
@@ -130,7 +132,7 @@ public class BusDetailFragment extends SherlockFragment {
 
 	}
 	
-	public class MHandler extends Handler implements Parcelable {
+	public class MHandler extends Handler implements Parcelable{
 
 		@Override
 		public int describeContents() {
@@ -142,22 +144,25 @@ public class BusDetailFragment extends SherlockFragment {
 			super.handleMessage(msg);
 			if(msg.what==1){
 				Bundle args = getArguments();
-				Intent intent = new Intent(getActivity().getApplicationContext(), SendEmailActivity.class);
-				intent.putExtra("code", args.getString("code"));
-				intent.putExtra("name", args.getString("name"));
-				intent.putExtra("operationTime", args.getString("operationTime"));
-				intent.putExtra("frequency", args.getString("frequency"));
-				intent.putExtra("cost", args.getString("cost"));
-				intent.putExtra("go", args.getString("go").replace("- ", "\n- "));
-				intent.putExtra("re", args.getString("re").replace("- ", "\n- "));
-				getActivity().startActivity(intent);
+				SherlockFragment fragment = new Baoloi();
+				fragment.setArguments(getArguments());
+//				Intent intent = new Intent(getActivity().getApplicationContext(), Baoloi.class);
+//				intent.putExtra("code", args.getString("code"));
+//				intent.putExtra("name", args.getString("name"));
+//				intent.putExtra("operationTime", args.getString("operationTime"));
+//				intent.putExtra("frequency", args.getString("frequency"));
+//				intent.putExtra("cost", args.getString("cost"));
+//				intent.putExtra("go", args.getString("go").replace("- ", "\n- "));
+//				intent.putExtra("re", args.getString("re").replace("- ", "\n- "));
+//				getActivity().startActivity(intent);
+				getFragmentManager().beginTransaction()
+				.add(getId(), fragment).addToBackStack("fragBack").commit();
+
 			}
 		}
 
 		@Override
 		public void writeToParcel(Parcel arg0, int arg1) {
-			// TODO Auto-generated method stub
-			
 		}
 	}
 }

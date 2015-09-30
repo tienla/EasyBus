@@ -316,7 +316,7 @@ public class SearchBox extends Fragment {
 
 		@Override
 		public void onClick(View v) {
-
+			MainActivity.hideSoftKeyboard(getActivity());
 			myResult.clear();
 			resultGeo.clear();
 			totalResult.clear();

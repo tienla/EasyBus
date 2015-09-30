@@ -46,7 +46,7 @@ public class FleetOverFragment extends SherlockFragment {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.list_item, container,
 				false);
-		getActivity().setTitle("Tuyến buýt đi qua");
+		getActivity().setTitle(getArguments().getString("address"));
 		String address = getArguments().getString("address");
 		//load content part
 		busHelper = BusHelper.getInstance(getActivity());
@@ -62,6 +62,8 @@ public class FleetOverFragment extends SherlockFragment {
 		return rootView;
 	}
 		
+	
+	
 	private List<String> getFleetOverList(String getsetFleetOver) {
 		List<String> fleetOverList = new ArrayList<String>();
 		String[] string = getsetFleetOver.split(",");
