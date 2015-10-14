@@ -24,12 +24,12 @@
     </style>
 
     <style name="RobotoTextViewStyle" parent="android:Widget.TextView">
-    <item name="android:fontFamily">sans-serif</item>
-</style>
+<!--     <item name="android:fontFamily">sans-serif</item>
+ --></style>
 
 <style name="RobotoButtonStyle" parent="android:Widget.Holo.Button">
-    <item name="android:fontFamily">sans-serif</item>
-</style>
+<!--     <item name="android:fontFamily">sans-serif</item>
+ --></style>
     
     <style name="MyBoldTextStyle">
 	    <item name="android:textColor">@color/red</item>

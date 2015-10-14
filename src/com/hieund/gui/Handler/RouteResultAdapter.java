@@ -27,18 +27,19 @@ public class RouteResultAdapter extends BaseAdapter {
 	public Activity a;
 	public ArrayList<ResultSearchObject> myResult = new ArrayList<ResultSearchObject>();
 	private BusHelper busHelper;
-	public RouteResultAdapter (Activity a){
+
+	public RouteResultAdapter(Activity a) {
 		this.a = a;
 	}
-	
+
 	@SuppressLint("ViewHolder")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View row;
-		//MainActivity.showNavBox(true);
+		// MainActivity.showNavBox(true);
 		busHelper = BusHelper.getInstance(a);
-		row = a.getLayoutInflater().inflate(
-				R.layout.row_findbus, parent, false);
+		row = a.getLayoutInflater()
+				.inflate(R.layout.row_findbus, parent, false);
 		ViewHolder holder;
 		if (row.getTag() == null) {
 			holder = new ViewHolder();
@@ -46,45 +47,44 @@ public class RouteResultAdapter extends BaseAdapter {
 					.findViewById(R.id.relayout_animation);
 			holder.startEndWay = (TextView) row
 					.findViewById(R.id.start_end_way);
-			holder.total_time = (TextView) row
-					.findViewById(R.id.total_time);
-			holder.chi_phi =  (TextView) row
-					.findViewById(R.id.chi_phi);
+			holder.total_time = (TextView) row.findViewById(R.id.total_time);
+			holder.chi_phi = (TextView) row.findViewById(R.id.chi_phi);
 			row.setTag(holder);
 		} else {
 			holder = (ViewHolder) row.getTag();
 		}
-//		holder.imageFindBus.setBackgroundResource(R.drawable.flag);
-		
+		// holder.imageFindBus.setBackgroundResource(R.drawable.flag);
+
 		ResultSearchObject object = (ResultSearchObject) getItem(position);
 		for (String element : object.getBusIds()) {
-			if(element.equalsIgnoreCase(Constances.MOVETO)){
+			if (element.equalsIgnoreCase(Constances.MOVETO)) {
 				ImageView walk = new ImageView(this.a);
 				walk.setBackgroundResource(R.drawable.walk_icon);
 				holder.animation.addView(walk);
-			}else{
+			} else {
 				TextView busId = new TextView(this.a);
-				busId.setText(element+" ");
-                LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                llp.setMargins(25, 0, 0, 0);
-                busId.setLayoutParams(llp);
+				busId.setText(element + " ");
+				LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(
+						LinearLayout.LayoutParams.WRAP_CONTENT,
+						LinearLayout.LayoutParams.WRAP_CONTENT);
+				llp.setMargins(25, 0, 0, 0);
+				busId.setLayoutParams(llp);
 				busId.setTextAppearance(this.a, R.style.MyBusIdTextStyle);
 				holder.animation.addView(busId);
 			}
 		}
 		double distance = calculateRoute(object);
-		Log.d("distance",""+distance);
-		distance = (double)Math.round(distance * 10) / 10;
+		Log.d("distance", "" + distance);
+		distance = (double) Math.round(distance * 10) / 10;
 
 		int totalCost = 0;
-		for  (String s : object.getBusIds()){
+		for (String s : object.getBusIds()) {
 			totalCost += busHelper.getBusCost(s);
 		}
-		holder.chi_phi.setText("Chi phí: "+totalCost+"đ");
+		holder.chi_phi.setText("Chi phí: " + totalCost + "đ");
 		holder.startEndWay.setText(object.getStartEndDeclare());
-		//Tong TG:
-		holder.total_time.setText("~"+distance+"km");
+		// Tong TG:
+		holder.total_time.setText("~" + distance + "km");
 		return row;
 	}
 
@@ -92,33 +92,36 @@ public class RouteResultAdapter extends BaseAdapter {
 		String nodeInfo = object.getNodeInfo();
 		String[] path = nodeInfo.split("\\|");
 		double distance = 0;
-		for(int i = 0; i < (path.length); i++){
+		for (int i = 0; i < (path.length); i++) {
 			String busId = path[i].split(";")[0];
 			String start = path[i].split(";")[1];
 			String end = path[i].split(";")[2];
-			
-			if (busId.equals("W")){
+
+			if (busId.equals("W")) {
 				Nodes s = null;
 				Nodes e = null;
-				if (start.contains("(") && start.contains(":")){
+				if (start.contains("(") && start.contains(":")) {
 					LatLng l = BusFunction.stringToLatLng(start);
 					s = new Nodes(null, "Điểm đi bộ");
 					s.setGeo(l);
 					s.setFleetOver("");
-				}else
+				} else
 					s = busHelper.findBusStop(start);
-				if (end.contains("(") && end.contains(":")){
+				if (end.contains("(") && end.contains(":")) {
 					LatLng l = BusFunction.stringToLatLng(end);
 					e = new Nodes(null, "Điểm đi bộ");
 					e.setGeo(l);
 					e.setFleetOver("");
-				}else
+				} else
 					e = busHelper.findBusStop(end);
-				distance += BusFunction.countDistance(s.getGeo().latitude,s.getGeo().longitude,
-						e.getGeo().latitude,e.getGeo().longitude);
-			}else{
-				ArrayList<Nodes> goNodeTemp = busHelper.getNodeInfo(busId, "go");
-				ArrayList<Nodes> reNodeTemp = busHelper.getNodeInfo(busId, "re");
+				distance += BusFunction.countDistance(s.getGeo().latitude,
+						s.getGeo().longitude, e.getGeo().latitude,
+						e.getGeo().longitude);
+			} else {
+				ArrayList<Nodes> goNodeTemp = busHelper
+						.getNodeInfo(busId, "go");
+				ArrayList<Nodes> reNodeTemp = busHelper
+						.getNodeInfo(busId, "re");
 				ArrayList<Nodes> listNodes = null;
 				boolean isGo = false;
 				for (int j = 0; j < goNodeTemp.size(); j++) {
@@ -126,28 +129,33 @@ public class RouteResultAdapter extends BaseAdapter {
 						isGo = true;
 				}
 				int check = 0;
-				if(isGo)
+				if (isGo)
 					listNodes = goNodeTemp;
 				else
 					listNodes = reNodeTemp;
 				for (int j = 0; j < listNodes.size(); j++) {
-						if (listNodes.get(j).getStopName().equals(start)){
-							check=1;
-						}else if (listNodes.get(j).getStopName().equals(end)){
-							distance += BusFunction.countDistance(listNodes.get(j).getGeo().latitude, listNodes.get(j).getGeo().longitude
-									, listNodes.get(j-1).getGeo().latitude, listNodes.get(j-1).getGeo().longitude);
-							break;
-						}else if (check == 1){
-							distance += BusFunction.countDistance(listNodes.get(j).getGeo().latitude, listNodes.get(j).getGeo().longitude
-									, listNodes.get(j-1).getGeo().latitude, listNodes.get(j-1).getGeo().longitude);
-						}
-			
+					if (listNodes.get(j).getStopName().equals(start)) {
+						check = 1;
+					} else if (listNodes.get(j).getStopName().equals(end)) {
+						distance += BusFunction.countDistance(listNodes.get(j)
+								.getGeo().latitude,
+								listNodes.get(j).getGeo().longitude, listNodes
+										.get(j - 1).getGeo().latitude,
+								listNodes.get(j - 1).getGeo().longitude);
+						break;
+					} else if (check == 1) {
+						distance += BusFunction.countDistance(listNodes.get(j)
+								.getGeo().latitude,
+								listNodes.get(j).getGeo().longitude, listNodes
+										.get(j - 1).getGeo().latitude,
+								listNodes.get(j - 1).getGeo().longitude);
 					}
+
 				}
 			}
+		}
 		return distance;
 	}
-	
 
 	private LatLng stringToLatLng(String start) {
 		// TODO Auto-generated method stub

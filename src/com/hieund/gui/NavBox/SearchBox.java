@@ -11,12 +11,11 @@ import java.util.Vector;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Debug;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -25,9 +24,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -45,6 +42,7 @@ import com.hieund.Util.AStarAlgo;
 import com.hieund.Util.BusFunction;
 import com.hieund.Util.Constances;
 import com.hieund.Util.ConvertUnsigned;
+import com.hieund.gui.Activity.Instructions;
 import com.hieund.gui.Activity.MainActivity;
 import com.hieund.gui.Handler.FragmentCommunicator;
 import com.hieund.gui.Object.Lines;
@@ -72,7 +70,7 @@ public class SearchBox extends Fragment {
 	ImageButton btnSwap;
 	ImageButton btnTrace1;
 	ImageButton btnTrace2;
-
+	boolean nearBusStops = false;
 	ProgressDialog progressDialog;
 	FragmentCommunicator comm;
 	
@@ -110,10 +108,10 @@ public class SearchBox extends Fragment {
 		
 		startAuto = (AutoCompleteTextView) rootView.findViewById(R.id.txtStart);
 		startAuto.setThreshold(1);//will start working from first character  
-		startAuto.setAdapter(new ArrayAdapter<String>(getActivity(),  android.R.layout.simple_list_item_1, busStopName));//setting the adapter data into the AutoCompleteTextView  
+		startAuto.setAdapter(new SpecialAdapter(getActivity(),  android.R.layout.simple_list_item_1, busStopName));//setting the adapter data into the AutoCompleteTextView  
 		endAuto = (AutoCompleteTextView) rootView.findViewById(R.id.txtEnd);
 		endAuto.setThreshold(1);//will start working from first character  
-		endAuto.setAdapter(new ArrayAdapter<String>(getActivity(),  android.R.layout.simple_list_item_1, busStopName));//setting the adapter data into the AutoCompleteTextView  
+		endAuto.setAdapter(new SpecialAdapter(getActivity(),  android.R.layout.simple_list_item_1, busStopName));//setting the adapter data into the AutoCompleteTextView  
 //		Log.d("Searchbox","");
 
 		btnSearch.setOnClickListener(searchClick);
@@ -198,6 +196,24 @@ public class SearchBox extends Fragment {
 	private boolean isTracing1 = false;
 	private boolean isTracing2 = false;
 	private ProgressDialog pd;
+	
+	/***
+	 * Checks that application runs first time and write flag at SharedPreferences 
+	 * @return true if 1st time
+	 */
+	private boolean isFirstTime()
+	{
+	    SharedPreferences preferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+	    boolean ranBefore = preferences.getBoolean("RanBefore", false);
+	    if (!ranBefore) {
+	        // first time
+	        SharedPreferences.Editor editor = preferences.edit();
+	        editor.putBoolean("RanBefore", true);
+	        editor.commit();
+	    }
+	    return !ranBefore;
+	}
+
 	class MyAsyncTask extends AsyncTask<String, Void, Void> {
 
 		@Override
@@ -205,6 +221,10 @@ public class SearchBox extends Fragment {
 //			Toast.makeText(getActivity(), Constances.DONE_LOADING,
 //					Toast.LENGTH_SHORT).show();
 			pd.dismiss();
+		    if (isFirstTime()) {
+			Fragment fragment = new Instructions();
+			getFragmentManager().beginTransaction().add(getId(), fragment).addToBackStack(null).commit();
+		    }
 		}
 
 		@Override
@@ -489,6 +509,7 @@ public class SearchBox extends Fragment {
 		}
 
 		private boolean processAlg(Stop startStop, int j) {
+			nearBusStops = checkNearBusStop(startStop, arrEndStop.get(j));
 			AStarAlgo AS1 = new AStarAlgo(arrStop, startStop, arrEndStop.get(j));
 			AS1.algorithm();
 			Vector<Nodes> foundAnswer = AS1.answer;
@@ -632,6 +653,15 @@ public class SearchBox extends Fragment {
 				ResultSearchObject rso = new ResultSearchObject(startEnd, detail.toString());
 				rso.setBusIds(str_busIds);
 				rso.setNodeInfo(nodeInfo);
+				if (nearBusStops){
+					Log.d("nearBus","");
+					str_busIds.clear();
+					str_busIds.add(Constances.MOVETO);
+					rso.setBusIds(str_busIds);
+					rso.setDetailInfo(searchResultElement.get(0).getOrigin() + Constances.TO
+							+ searchResultElement.get(searchResultElement.size() - 1).getDestination() + "\n");
+					rso.setNodeInfo("W" +";"+searchResultElement.get(0).getOrigin()+";"+searchResultElement.get(searchResultElement.size() - 1).getDestination());
+				}
 				Log.d("Bus","1");
 				return rso;
 			}else{
@@ -839,5 +869,10 @@ public class SearchBox extends Fragment {
 			//}
 		}
 
+	}
+	
+	private boolean checkNearBusStop(Stop a, Stop b){
+		double distance = BusFunction.countDistance(a.getGeo().latitude,a.getGeo().longitude,b.getGeo().latitude,b.getGeo().longitude);
+		return distance < 0.2;
 	}
 }
