@@ -17,3 +17,8 @@ EasyBus
 1.Exception SQLite
 2.Báo lỗi cơ bản (tuyến khong hoạt động + sửa thông tin)
 3.Chỉnh lại back event
+
+# Version 1.05 version code 6
+1. Đổi màu giao diện (tông đỏ, vàng cam)
+2. Sửa lỗi gợi ý nhập đầu vào phần tìm đường + hướng dẫn điền thông tin (xuất hiện ở lần chạy ứng dụng đầu tiên)
+3. Sửa tạm thời lỗi tìm 2 bến đối diện (hướng dẫn người dùng đi bộ với 2 điểm cách nhau không quá 200m)
