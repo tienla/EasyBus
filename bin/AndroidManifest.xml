@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hieund"
+    package="com.easybus"
     android:versionCode="6"
     android:versionName="1.05" >
 
@@ -36,7 +36,7 @@
         android:screenOrientation="portrait"
         android:theme="@style/MyTheme" >
         <activity
-            android:name=".gui.Activity.SplashActivity"
+            android:name="com.easybus.gui.Activity.SplashActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
@@ -47,7 +47,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".gui.Activity.MainActivity"
+            android:name="com.easybus.gui.Activity.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -66,7 +66,7 @@
                 android:value=".SearchableActivity" />
         </activity>
         <activity
-            android:name=".gui.Activity.SendEmailActivity"
+            android:name="com.easybus.gui.Activity.SendEmailActivity"
             android:label="Báo lỗi tuyến buýt"
             android:screenOrientation="portrait" />
 
@@ -80,7 +80,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name="com.hieund.gui.Activity.ChooseCity"
+            android:name="com.easybus.gui.Activity.ChooseCity"
             android:label="@string/title_activity_choose_city"
             android:screenOrientation="portrait" >
         </activity>
