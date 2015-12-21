@@ -1,5 +1,7 @@
 package com.easybus.gui.Object;
 
+
+//Tree node for astar algo
 public class TreeNode {
 
     private Nodes currentNode;

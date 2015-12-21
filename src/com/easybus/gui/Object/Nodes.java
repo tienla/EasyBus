@@ -2,6 +2,8 @@ package com.easybus.gui.Object;
 
 import com.google.android.gms.maps.model.LatLng;
 
+
+//Node class
 public class Nodes {
 
     private Lines line;

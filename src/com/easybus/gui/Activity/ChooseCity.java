@@ -28,9 +28,9 @@ import com.easybus.R;
 import com.easybus.Helper.BusHelper;
 import com.easybus.gui.Object.Singleton;
 
+//Class for choosing city view
 public class ChooseCity extends Activity {
 	
-	//TODO change to dynamic data to load in to array
 	// Array of strings storing city names
     String[] city_names = new String[] { "Hà Nội", "Hồ Chí Minh"};
 
@@ -104,7 +104,6 @@ public class ChooseCity extends Activity {
 				} else if (id == 1) {
 					BusHelper.DATABASE_NAME = "HCMBus.sqlite";
 				}
-				// TODO load CHOSEN city data to jump to main activity
 				new MyAsyncTask().execute();
 			}
 		});
@@ -130,9 +129,9 @@ public class ChooseCity extends Activity {
 		    .setNegativeButton("No", null)
 		    .show();	
 	}
-	// tao database
 	private ProgressDialog pd;
 
+	//Create corresponding database
 	class MyAsyncTask extends AsyncTask<String, Void, Void> {
 
 		@Override

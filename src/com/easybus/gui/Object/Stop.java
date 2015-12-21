@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import com.google.android.gms.maps.model.LatLng;
 
+
+//Bus Stop
 public class Stop {
 	private String code;
     private String name;

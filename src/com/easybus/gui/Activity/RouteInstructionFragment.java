@@ -15,6 +15,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.easybus.R;
 import com.easybus.gui.Handler.MapHandle;
 
+//Class for route instruction after finding shortest path
 public class RouteInstructionFragment extends SherlockFragment{
 	
 	String node;
@@ -40,6 +41,7 @@ public class RouteInstructionFragment extends SherlockFragment{
 			travelAdapter = new TravelAdapter(getActivity(), R.layout.row_route, nodeInfo);
 			ListView lv = (ListView) rootView.findViewById(R.id.lvItem);
 			lv.setAdapter(travelAdapter);
+			//open map route for the path
 			btn.setOnClickListener(new OnClickListener() {
 	
 				@Override
@@ -56,6 +58,7 @@ public class RouteInstructionFragment extends SherlockFragment{
 		return rootView;
 	}
 	
+	//Each instruction adapter
 	public class TravelAdapter extends ArrayAdapter<String> {
 
 		Context context; 
@@ -93,13 +96,13 @@ public class RouteInstructionFragment extends SherlockFragment{
 	        String busId = nodeInfo.split(";")[0];
 			String start = nodeInfo.split(";")[1];
 			String end = nodeInfo.split(";")[2];
-	        holder.start.setText("Từ "+start);
+	        holder.start.setText("Từ "+start); //From start
 	        holder.end.setText(end);
-	        if (busId.equals("W")){
+	        if (busId.equals("W")){ //If busid = 'W' => ask user to walk to destination
 	        	holder.end.setText("Đi bộ tới "+end);
 	        	holder.icon.setBackgroundResource(R.drawable.walk);
-	        }else{
-	        	holder.end.setText("Bắt xe buýt tới "+end);
+	        }else{ //Else => Ask user to catch the bus wwith busID to destination
+	        	holder.end.setText("Bắt xe buýt tới "+end); 
 	        	holder.icon.setText(busId);
 	        }
 	        return row;

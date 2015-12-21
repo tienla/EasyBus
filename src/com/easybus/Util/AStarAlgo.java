@@ -11,12 +11,12 @@ import com.easybus.gui.Object.*;
 import com.google.android.gms.maps.model.LatLng;
 public class AStarAlgo {
 
-    private Vector<TreeNode> OPEN = new Vector<TreeNode>();             //Tap cac nut con duoc sinh ra nhung chua xet
-    private Vector<TreeNode> offspring = new Vector<TreeNode>();        //Tap cac trang thai con
-    public Vector<Nodes> answer = new Vector<Nodes>();            //Loi giai bai toan
+    private Vector<TreeNode> OPEN = new Vector<TreeNode>();             //Set of node have not been judge
+    private Vector<TreeNode> offspring = new Vector<TreeNode>();        //Set of child state
+    public Vector<Nodes> answer = new Vector<Nodes>();            //Result
     public Vector<Stop> ansNodes = new Vector<Stop>();
-    private double fmin;                       //f nho nhat trong cac nut cua OPEN
-    private int minIndex;                   //chi so cua nut co f nho nhat trong OPEN
+    private double fmin;                       //min f OPEN
+    private int minIndex;                   //node index  OPEN
     //private boolean isOver;
     private String startPlace;
     private String endPlace;

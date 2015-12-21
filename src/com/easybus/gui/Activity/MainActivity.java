@@ -59,6 +59,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
+
+//Main activity of the system, consist google map and corresponding fragment
 @SuppressWarnings("deprecation")
 public class MainActivity extends SherlockFragmentActivity implements
 		LocationListener, FragmentCommunicator {
@@ -94,6 +96,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 	boolean itemVisibility = false;
 	MHandler handler;
 
+	//Open fleet over of a bus stop view when clicked on the info box of a marker
 	private OnInfoWindowClickListener onInfoWindowClickListener = new OnInfoWindowClickListener() {
 
 		@Override
@@ -180,7 +183,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 		// lParams.height = height /4;
 		// navBox.setLayoutParams(lParams);
 		contentView = (RelativeLayout) findViewById(R.id.content);
-		// khoi tao map
+		// Init google map
 		int status = GooglePlayServicesUtil
 				.isGooglePlayServicesAvailable(getApplicationContext());
 		if (status != ConnectionResult.SUCCESS) {
@@ -191,6 +194,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 		}
 
 		else {
+			//Go route button, show go route in map
 			SupportMapFragment fm = (SupportMapFragment) getSupportFragmentManager()
 					.findFragmentById(R.id.map);
 			goButton = (Button) findViewById(R.id.goButton);
@@ -202,6 +206,8 @@ public class MainActivity extends SherlockFragmentActivity implements
 					map.showGoPath();
 				}
 			});
+
+			//Re route button, show return route in map
 
 			reButton = (Button)findViewById(R.id.reButton);
 			reButton.setOnClickListener(new OnClickListener(){
@@ -239,6 +245,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 				onLocationChanged(location);
 			}
 
+			//Check if Internet is on>
 			if (!isNetworkAvailable()) {
 				Toast.makeText(getApplicationContext(), Constances.NOINTERNET,
 						Toast.LENGTH_SHORT).show();
@@ -330,6 +337,8 @@ public class MainActivity extends SherlockFragmentActivity implements
 		return super.onOptionsItemSelected(item);
 	}
 	boolean exit = false;
+	
+	//Back pressed event
 	@Override
 	public void onBackPressed() {
 		
@@ -345,6 +354,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 			
 		} else {
 			FragmentManager fm = getSupportFragmentManager();
+			//Back to previous fragment
 			if (fm.getBackStackEntryCount() > 0){
 				System.out.println("BackStack:"+fm.getBackStackEntryCount());
 
@@ -356,7 +366,10 @@ public class MainActivity extends SherlockFragmentActivity implements
 //				}
 			}
 			else{
+				//If there is not any previous fragment, first back to bus list view, 
+				//if the back button is pressed, show exit dialog
 				if (!exit){
+					//Back to bus list view
 					this.setGoReButtonEnabled(true);
 					exit = true;
 					ListItemFragment fragment = new ListItemFragment();
@@ -374,6 +387,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 							.replace(R.id.content, fragment).commit();
 
 				}else{
+					//Show exit dialog
 					exit = false;
 
 				new AlertDialog.Builder(this)
@@ -399,6 +413,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 			}
 		}
 	}
+	
 	
 	public void setGoReButtonEnabled(boolean option){
 		goButton.setEnabled(option);
@@ -441,6 +456,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 
+	//Select item in drawer menu
 	private void selectItem(int position) {
 		MenuEnum mnPos = MenuEnum.values()[position];
 
@@ -467,7 +483,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 			e.printStackTrace();
 		}
 		switch (curItem) {
-		case THONGTINBUS: // thong tin tuyen bus
+		case THONGTINBUS: // Showw bus list
 			this.setGoReButtonEnabled(true);
 			fragment = new ListItemFragment();
 			Bundle bundle = new Bundle();
@@ -478,7 +494,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 					.replace(R.id.content, fragment).commit();
 			break;
 
-		case TIMDUONG: // che do ban do
+		case TIMDUONG: // Find shortest route 
 			new MapHandle();
 			this.setGoReButtonEnabled(false);
 			this.setTitle("Tìm đường");
@@ -490,12 +506,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 			showNavBox(true);
 			break;
 
-		case GANBAN: // tab fragment
-//			getSupportFragmentManager()
-//					.beginTransaction()
-//					.replace(R.id.content,
-//							PageSlidingTabStripFragment.newInstance(),
-//							PageSlidingTabStripFragment.TAG).commit();
+		case GANBAN: //Show near bus stop list
 			
 
 			this.setGoReButtonEnabled(true);
@@ -509,7 +520,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 				
 			
 			break;
-		case CAIDAT:
+		case CAIDAT: //Show choosing city view
 			SharedPreferences pref = getSharedPreferences("ActivityChooseCityPREF", Context.MODE_PRIVATE);
 	        if(pref.getBoolean("activity_executed", true)){
 	            Editor ed = pref.edit();
@@ -521,13 +532,13 @@ public class MainActivity extends SherlockFragmentActivity implements
 
 			break;
 			
-		case TACGIA:
+		case TACGIA://Show about view
 			fragment = new AboutFragment();
 			getSupportFragmentManager().beginTransaction()
 					.replace(R.id.content, fragment).commit();
 			break;
 			
-		case THOAT:
+		case THOAT: //Exit
 			new AlertDialog.Builder(this)
 	        .setIcon(android.R.drawable.ic_dialog_alert)
 	        .setTitle("Closing App")
@@ -560,6 +571,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 		mDrawerLayout.closeDrawer(mDrawerList);
 	}
 
+	
 	@Override
 	public void setTitle(CharSequence title) {
 		mTitle = title;
@@ -596,6 +608,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 		isMapOn = !mode; //map on means that no content displayed
 	}
 
+	
 	@Override
 	public void onLocationChanged(Location location) {
 		double latitude = location.getLatitude();

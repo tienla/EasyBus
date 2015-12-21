@@ -52,6 +52,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+
+//Handle search shortest path
 public class SearchBox extends Fragment {
 	private ConvertUnsigned converUnsigned = new ConvertUnsigned();
 	private ArrayList<Stop> arrStop = new ArrayList<Stop>();
@@ -65,11 +67,11 @@ public class SearchBox extends Fragment {
 	private String walkStart = "";
 	private String walkEnd = "";
 	private boolean alterStart = true;
-	AutoCompleteTextView startAuto,endAuto;
-	ImageButton btnSearch;
-	ImageButton btnSwap;
-	ImageButton btnTrace1;
-	ImageButton btnTrace2;
+	AutoCompleteTextView startAuto,endAuto; //Text box 
+	ImageButton btnSearch; //Search button
+	ImageButton btnSwap; //Switch start and destination button
+	ImageButton btnTrace1; //Get location on map button
+	ImageButton btnTrace2;//Get location on map button
 	boolean nearBusStops = false;
 	ProgressDialog progressDialog;
 	FragmentCommunicator comm;
@@ -101,6 +103,8 @@ public class SearchBox extends Fragment {
 		btnTrace2 = (ImageButton) rootView.findViewById(R.id.btnTrace2);
 		lvBusStop = (ListView) rootView.findViewById(R.id.lvItem);
 		Cursor c = busHelper.getBusStopName();
+		
+		//Get all bus stop name for search suggestion
 		for(c.moveToFirst();!c.isAfterLast();c.moveToNext())
 			busStopName.add(c.getString(0));
 		//lvBusStop.setAdapter(new ArrayAdapter<String>(getActivity(),  android.R.layout.simple_list_item_1, busStopName));
@@ -131,6 +135,8 @@ public class SearchBox extends Fragment {
 				return false;
 			}
 		});
+		
+		//Add marker when user choose an input location in map
         positionMarker = MainActivity.googleMap.addMarker(new MarkerOptions().position(MainActivity.googleMap.getCameraPosition().target));     
         positionMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.position_marker));
         positionMarker.setVisible(false);
@@ -214,6 +220,7 @@ public class SearchBox extends Fragment {
 	    return !ranBefore;
 	}
 
+	//Initial data when first run, make array bus stop
 	class MyAsyncTask extends AsyncTask<String, Void, Void> {
 
 		@Override
@@ -247,7 +254,7 @@ public class SearchBox extends Fragment {
 	}
 	
 	
-	// CUSTOM FUNCTIONS
+	// 
 	private ArrayList<ResultObject> convertToResultObject(Vector<Nodes> arrNodes) {
 		ArrayList<ResultObject> result = new ArrayList<ResultObject>();
 		Nodes startNode;
@@ -332,6 +339,8 @@ public class SearchBox extends Fragment {
 			endAuto.setText(temp);
 		}
 	};
+	
+	
 	private OnClickListener searchClick = new OnClickListener() {
 
 		@Override
@@ -340,14 +349,14 @@ public class SearchBox extends Fragment {
 			myResult.clear();
 			resultGeo.clear();
 			totalResult.clear();
-			String a = findBusStop(startAuto.getText().toString());
+			String a = findBusStop(startAuto.getText().toString()); //find address in bus stop
 			if (!a.equals(startAuto.getText().toString()))
-				walkStart = startAuto.getText().toString();
+				walkStart = startAuto.getText().toString();//if could not find => start by walking
 			else
-				walkStart = "";
+				walkStart = ""; 
 			String b = findBusStop(endAuto.getText().toString());
 			if (!b.equals(endAuto.getText().toString()))
-				walkEnd = endAuto.getText().toString();
+				walkEnd = endAuto.getText().toString(); //if could not find => user have to walk to destination
 			else
 				walkEnd = "";
 			String startPoint = a, endPoint = b;
@@ -365,10 +374,10 @@ public class SearchBox extends Fragment {
 			}
 			Log.d("startPoint", startPoint);
 			Log.d("endPoint", endPoint);
-			if (startPoint.equals(endPoint)) {
+			if (startPoint.equals(endPoint)) { //check if start point and end point are equal
 				Toast.makeText(getActivity(), Constances.START_EQUAL_END,
 						Toast.LENGTH_SHORT).show();
-			} else if (startPoint.equals("") || endPoint.equals("")) {
+			} else if (startPoint.equals("") || endPoint.equals("")) { //check if input is blank
 				Toast.makeText(getActivity(), Constances.EMPTY_FIELD,
 						Toast.LENGTH_SHORT).show();
 			} else {
@@ -376,10 +385,10 @@ public class SearchBox extends Fragment {
 				progressDialog = ProgressDialog.show(getActivity(), "",
 						Constances.LOADING, true);
 				Log.d("progress", String.valueOf(progressDialog.isShowing()));
-				arrStartStop = searchApproStop(startPoint);
+				arrStartStop = searchApproStop(startPoint); //search bus stop
 				arrEndStop = searchApproStop(endPoint);
 
-				if (arrStartStop.size() == 0) {
+				if (arrStartStop.size() == 0) { //if could not find bus stop, find in nearby list
 					AssetManager assetManager = getActivity().getAssets();
 					InputStream fis;
 					BufferedReader reader;
@@ -439,6 +448,7 @@ public class SearchBox extends Fragment {
 			}
 		}
 
+		//find bus stop or nearest bus stop
 		private String findBusStop(String string) {
 			Cursor c = busHelper.getBusStop();
 			String nearestBusStop = "";
@@ -508,18 +518,19 @@ public class SearchBox extends Fragment {
 			return null;
 		}
 
+		//run the astar algo
 		private boolean processAlg(Stop startStop, int j) {
 			nearBusStops = checkNearBusStop(startStop, arrEndStop.get(j));
 			AStarAlgo AS1 = new AStarAlgo(arrStop, startStop, arrEndStop.get(j));
 			AS1.algorithm();
-			Vector<Nodes> foundAnswer = AS1.answer;
+			Vector<Nodes> foundAnswer = AS1.answer; //return result
 			for (Nodes s : foundAnswer){
 				Log.d("formation",s.getLine().getCode()+"|"+s.getStopName());
 			}
 			if (foundAnswer != null && foundAnswer.size() > 0) {
 				result_count++;
 				arrayNodeAns.add(foundAnswer);
-				searchResultElement = convertToResultObject(foundAnswer);
+				searchResultElement = convertToResultObject(foundAnswer); //convert result to result object
 				
 				if (totalResult.size() != 0) {
 					Log.d("count", "total: " + totalResult.size()
@@ -565,15 +576,16 @@ public class SearchBox extends Fragment {
 			return true;
 		}
 
+		//Make the result object
 		private ResultSearchObject makeResultObject(
 				ArrayList<ResultObject> newObject) {
 			for (int hk = 0; hk < searchResultElement.size(); hk++) {
 				newObject.add(searchResultElement.get(hk));
 			}
-			StringBuffer detail = new StringBuffer();
+			StringBuffer detail = new StringBuffer(); //details instruction of path
 //			String str_busIds = "Tuyến bus: ";
-			ArrayList<String> str_busIds = new ArrayList<String>();
-			String nodeInfo = "";
+			ArrayList<String> str_busIds = new ArrayList<String>(); //array bus is of bus using in result
+			String nodeInfo = "";  //info of the path, busID|Startpoint|endpoint
 			if (!walkStart.equals(""))
 				nodeInfo += "W" +";"+walkStart+";"+searchResultElement.get(0).getOrigin()+"|";
 			Log.d("searchResult", String.valueOf(searchResultElement.size()));
@@ -686,6 +698,8 @@ public class SearchBox extends Fragment {
 				comm.passData(myResult, resultGeo, arrayNodeAns);
 			}
 		}
+		
+		//check if route found is valid, if not, configure to find a valid alter route
 		private String checkRoute(String busId, String start, String end){
 			alterStart = true;
 			Cursor c = helper.getGeo(busId);

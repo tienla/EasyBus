@@ -24,6 +24,7 @@ import com.easybus.R;
 import com.easybus.Helper.BusHelper;
 import com.easybus.gui.Object.Nodes;
 
+//Class for the bus list which fleet over a bus stop
 public class FleetOverFragment extends SherlockFragment {
 	static BusHelper busHelper;
 	Cursor model;
@@ -39,6 +40,7 @@ public class FleetOverFragment extends SherlockFragment {
 		// Empty constructor required for fragment subclasses
 	}
 	
+	//Fleet over bus list
 	List<String> busList = new ArrayList<String>();
 
 	@Override
@@ -50,8 +52,12 @@ public class FleetOverFragment extends SherlockFragment {
 		String address = getArguments().getString("address");
 		//load content part
 		busHelper = BusHelper.getInstance(getActivity());
+		//Find bus stop corresponding to the address
 		Nodes nodes = busHelper.findBusStop(address);
+		
+		//Convert fleet over string in db to array
 		busList = getFleetOverList(nodes.getsetFleetOver());
+		//Convert busList to cursor
 		model = busHelper.getNearBus(busList);
 		Log.d("db", "items: " + model.getCount());
 		busAdapter = new BusAdapter(getActivity(), model);
@@ -63,7 +69,7 @@ public class FleetOverFragment extends SherlockFragment {
 	}
 		
 	
-	
+	//Convert fleet over string in db to array
 	private List<String> getFleetOverList(String getsetFleetOver) {
 		List<String> fleetOverList = new ArrayList<String>();
 		String[] string = getsetFleetOver.split(",");
@@ -71,6 +77,7 @@ public class FleetOverFragment extends SherlockFragment {
 		return fleetOverList;
 	}
 	
+	//Open bus details view when clicked 
 	private AdapterView.OnItemClickListener onClicked = new OnItemClickListener() {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -79,13 +86,13 @@ public class FleetOverFragment extends SherlockFragment {
 			SherlockFragment fragment = new BusDetailFragment();
 			
 			Bundle args = new Bundle();
-			args.putString("code", busHelper.getCode(model)); //so hieu tuyen
-			args.putString("name", busHelper.getName(model)); //ten xe
-			args.putString("operationTime", busHelper.getOperationTime(model)); //thoi gian hd
-			args.putString("frequency", busHelper.getFrequency(model)); //tan suat hd
-			args.putString("cost", busHelper.getCost(model)); //chi phi
-			args.putString("go", busHelper.getGo(model)); //luot di
-			args.putString("re", busHelper.getRe(model)); //luot ve
+			args.putString("code", busHelper.getCode(model)); //Bus code
+			args.putString("name", busHelper.getName(model)); //Bus name
+			args.putString("operationTime", busHelper.getOperationTime(model)); //Bus schedule
+			args.putString("frequency", busHelper.getFrequency(model)); //Bus frequency
+			args.putString("cost", busHelper.getCost(model)); //Bus cost
+			args.putString("go", busHelper.getGo(model)); //Bus go route
+			args.putString("re", busHelper.getRe(model)); //Bus return route
 			
 			fragment.setArguments(args);
 
@@ -95,7 +102,7 @@ public class FleetOverFragment extends SherlockFragment {
 		}
 	};
 
-	//CUSTOM CLASSES
+	//Bus adapter for each bus row
 	public class BusAdapter extends CursorAdapter {
 
 

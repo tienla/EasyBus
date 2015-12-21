@@ -20,16 +20,17 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.easybus.R;
 import com.easybus.gui.Error.Camon;
 
+//Input error report fragment 
 public class SendEmailFragment extends SherlockFragment {
 
-    private EditText diemDauEditText;
-    private EditText diemCuoiEditText;
-    private EditText thoiGianEditText;
-    private EditText tanSuatEditText;
-    private EditText chiPhiEditText;
-    private EditText luotDiEditText;
-    private EditText luotVeEditText;
-    private EditText ghiChuEditText;
+    private EditText diemDauEditText; //change start info
+    private EditText diemCuoiEditText;//change end info
+    private EditText thoiGianEditText;//change schedule info
+    private EditText tanSuatEditText;//change frequency info
+    private EditText chiPhiEditText;//change cost info
+    private EditText luotDiEditText;//change go route info
+    private EditText luotVeEditText;//change return route info
+    private EditText ghiChuEditText;//note
     private TextView tenTextView;
     private Button sendBtn;
     private Button cancelBtn;
@@ -73,6 +74,7 @@ public class SendEmailFragment extends SherlockFragment {
             }
         });
 
+        //Send error email to gmail
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,6 +90,7 @@ public class SendEmailFragment extends SherlockFragment {
         return rootView;
     }
 
+    //Asyntask for send email
     private class Sender extends AsyncTask<Void, Void, String> {
 
         @Override
@@ -96,6 +99,7 @@ public class SendEmailFragment extends SherlockFragment {
             String body = "";
             Boolean result = null;
 
+            //Check if there is blank field?
             if(diemDauEditText.getText().toString().equals("") ||
                     diemCuoiEditText.getText().toString().equals("") ||
                     thoiGianEditText.getText().toString().equals("") ||
@@ -125,6 +129,7 @@ public class SendEmailFragment extends SherlockFragment {
 
             Log.i("aaaa",body);
 
+            //Check if there is any change of information in the report
             if(body.equals(tenTextView.getText() + "\n\n"))
                 return "chua thay doi";
 
@@ -136,6 +141,7 @@ public class SendEmailFragment extends SherlockFragment {
                 e.printStackTrace();
             }
 
+            //Check if email is send success or not
             if(result==null) return "error";
             else if(result==true) return "success";
             else return "fail";
@@ -151,6 +157,7 @@ public class SendEmailFragment extends SherlockFragment {
             dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00000000")));
 
+            //If could not send the email, ask to check the network connnection
             if(s.equals("error")) {
                 ((TextView) dialog.findViewById(R.id.dialog_title)).setText("ERROR");
                 ((TextView) dialog.findViewById(R.id.dialog_textView)).setText("Không thể gửi phản hồi. Bạn vui lòng kiểm tra lại kết nối mạng.");
@@ -160,7 +167,7 @@ public class SendEmailFragment extends SherlockFragment {
                         dialog.dismiss();
                     }
                 });
-            }
+            }//If there is an error when send mail
             else if(s.equals("fail")) {
                 ((TextView) dialog.findViewById(R.id.dialog_title)).setText("ERROR");
                 ((TextView) dialog.findViewById(R.id.dialog_textView)).setText("Đã có lỗi xảy ra với hệ thống phản hồi. Chúng tôi sẽ cố gắng khắc phục trong thời gian sớm nhất. Xin cảm ơn!");
@@ -170,7 +177,7 @@ public class SendEmailFragment extends SherlockFragment {
                         dialog.dismiss();
                     }
                 });
-            }
+            }//If send success
             else  if(s.equals("success")){
                 dialog.findViewById(R.id.btn_ok).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -178,7 +185,7 @@ public class SendEmailFragment extends SherlockFragment {
                         dialog.dismiss();
                     }
                 });
-            }
+            }//If there is a blank field, ask to fill in
             else if(s.equals("co o de trong")){
                 ((TextView) dialog.findViewById(R.id.dialog_title)).setText("ERROR");
                 ((TextView) dialog.findViewById(R.id.dialog_textView)).setText("Bạn chỉ có thể bỏ trống phần ghi chú.");
@@ -188,7 +195,7 @@ public class SendEmailFragment extends SherlockFragment {
                         dialog.dismiss();
                     }
                 });
-            }
+            }//If there is not any change of bus information in the report
             else if(s.equals("chua thay doi")){
                 ((TextView) dialog.findViewById(R.id.dialog_title)).setText("ERROR");
                 ((TextView) dialog.findViewById(R.id.dialog_textView)).setText("Bạn chưa sửa bất kì thông tin nào.");

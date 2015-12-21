@@ -14,6 +14,7 @@ import com.easybus.R;
 import com.easybus.gui.Activity.Mail;
 import com.easybus.gui.Activity.MainActivity;
 
+//Thank you view after user finish report erro
 public class Camon extends SherlockFragment{
 	
 	EditText name,email;

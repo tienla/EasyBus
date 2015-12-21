@@ -1,5 +1,6 @@
 package com.easybus.gui.Object;
 
+//Result object class, each bus route in one result path
 public class ResultObject {
     private String origin;
     private String destination;

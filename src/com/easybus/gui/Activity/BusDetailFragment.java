@@ -24,6 +24,7 @@ import com.easybus.Util.Constances;
 import com.easybus.gui.Error.Baoloi;
 import com.easybus.gui.Handler.MapHandle;
 
+//Class for bus's detail information view
 public class BusDetailFragment extends SherlockFragment {
 
 	public static MHandler mHandler;
@@ -38,11 +39,13 @@ public class BusDetailFragment extends SherlockFragment {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_busdetail,
 				container, false);
+		//Title of the bus with the bus code
 		getActivity().setTitle(Constances.TITLE_BUSDETAIL+ " "+ getArguments().getString("code"));
 		
 		mHandler = new MHandler();
 		
 		Button btnMapView = (Button)rootView.findViewById(R.id.btnViewinMap);
+		//Open map view for bus's route
 		btnMapView.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -64,18 +67,18 @@ public class BusDetailFragment extends SherlockFragment {
 
 	
 	private void setContent(View pView) {
-		// load arguments
+		// Load arguments
 		LinearLayout llContent = (LinearLayout) pView
 				.findViewById(R.id.llBusContent);
 		String arg;
 		TextView label = (TextView) pView.findViewById(R.id.tvBusContent);
 		
-		// so hieu tuyen + ten
+		// Bus's code and name
 		arg = getArguments().getString("code") + " - "
 				+ getArguments().getString("name");
 		label.setText(arg);
 
-		// thoi gian, tan suat, chi phi hd
+		// Bus schedule, frequency and cost
 		label = new TextView(getActivity());
 		label.setTextColor(Color.BLACK);
 		label.setTextSize(16);
@@ -90,7 +93,7 @@ public class BusDetailFragment extends SherlockFragment {
 		label.setPadding(0, 0, 0, 20);
 		llContent.addView(label);
 
-		// tieu de muc
+		// Heading
 		TextView partName =  new TextView(getActivity());
 		partName.setTextAppearance(getActivity(), R.style.MyBoldTextStyle);
 		partName.setTextSize(16);
@@ -98,14 +101,11 @@ public class BusDetailFragment extends SherlockFragment {
 		partName.setGravity(Gravity.CENTER);
 		llContent.addView(partName);
 		
-		// luot di
+		// Go route
 		label = new TextView(getActivity());
-		//@duy_bug have — special character in db
-//		label.setTextColor(Color.BLUE);
 		label.setTextSize(16);
 		arg = getArguments().getString("go");//.replace("- ", "\n• ").replace("— ", "\n• ");
 		label.setText(arg);
-//		label.setLayoutParams(params);
 		llContent.addView(label);
 
 		partName =  new TextView(getActivity());
@@ -115,7 +115,7 @@ public class BusDetailFragment extends SherlockFragment {
 		partName.setGravity(Gravity.CENTER);
 		llContent.addView(partName);
 		
-		// luot ve
+		// Return Route
 		label = new TextView(getActivity());
 //		label.setTextColor(Color.RED);
 		label.setTextSize(16);
@@ -126,6 +126,7 @@ public class BusDetailFragment extends SherlockFragment {
 
 	}
 	
+	//Handle to get the bus infor when user click on Bus Error Report option on navigation bar
 	public class MHandler extends Handler implements Parcelable{
 
 		@Override
@@ -138,6 +139,7 @@ public class BusDetailFragment extends SherlockFragment {
 			super.handleMessage(msg);
 			if(msg.what==1){
 				Bundle args = getArguments();
+				//Class Baoloi: Bus Error Report
 				SherlockFragment fragment = new Baoloi();
 				fragment.setArguments(getArguments());
 //				Intent intent = new Intent(getActivity().getApplicationContext(), Baoloi.class);
@@ -149,6 +151,7 @@ public class BusDetailFragment extends SherlockFragment {
 //				intent.putExtra("go", args.getString("go").replace("- ", "\n- "));
 //				intent.putExtra("re", args.getString("re").replace("- ", "\n- "));
 //				getActivity().startActivity(intent);
+				
 				getFragmentManager().beginTransaction()
 				.add(getId(), fragment).addToBackStack("fragBack").commit();
 

@@ -12,6 +12,7 @@ import com.easybus.R;
 import com.easybus.gui.Activity.BusDetailFragment;
 import com.easybus.gui.Activity.SendEmailFragment;
 
+//Error report view, choosing 1 of 3 kind of error
 public class Baoloi extends SherlockFragment{
 	Button btn1,btn2,btn3;
 	SherlockFragment fragment;

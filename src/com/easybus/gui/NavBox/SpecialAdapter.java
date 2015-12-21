@@ -15,6 +15,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+//special adapter for bus stop suggestion
 public class SpecialAdapter extends BaseAdapter implements Filterable {
 	 
     private List<String> originalItems;

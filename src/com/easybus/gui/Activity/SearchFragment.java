@@ -21,6 +21,7 @@ import com.easybus.gui.Handler.RouteResultAdapter;
 import com.easybus.gui.Object.Nodes;
 import com.easybus.gui.Object.ResultSearchObject;
 
+//Show each result after finding shortest path
 public class SearchFragment extends SherlockFragment {
 
 

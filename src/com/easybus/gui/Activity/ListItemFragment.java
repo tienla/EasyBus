@@ -22,6 +22,8 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.easybus.R;
 import com.easybus.Helper.BusHelper;
 
+
+//Class for bus list view
 public class ListItemFragment extends SherlockFragment {
 	static BusHelper busHelper;
 	Cursor model;
@@ -58,7 +60,9 @@ public class ListItemFragment extends SherlockFragment {
 //		btnSearchBus.setOnClickListener(searchBusListener);
 		
 		txtBusSearch = (EditText)rootView.findViewById(R.id.txtBusSearch);
-//		tvTitle = (TextView)rootView.findViewById(R.id.tvTitle);
+//		tvTitle = (TextView)rootView.findViewById(R.id.tvTitle);\
+		
+		//Catch the text change event on search box to instant searching the bus
 		txtBusSearch.addTextChangedListener(new TextWatcher() {
 			
 			@Override
@@ -78,14 +82,15 @@ public class ListItemFragment extends SherlockFragment {
 		});
 		return rootView;
 	}
-		
+	
+	//Search bus with text input for search box
 	protected void searchBus(String txt) {
 		model = busHelper.getBusSearch(txt);
 		busAdapter.swapCursor(model);
 		busAdapter.notifyDataSetChanged();
 	}
 	
-	
+	//Open bus details information when clicking on bus row
 	private AdapterView.OnItemClickListener onClicked = new OnItemClickListener() {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -112,6 +117,7 @@ public class ListItemFragment extends SherlockFragment {
 			getFragmentManager().beginTransaction()
 					.replace(getId(), fragment).commit();
 
+			//Set to appear bus error report button on bus details view
 			Message msg = new Message();
 			msg.what=1;
 			try{
@@ -122,7 +128,7 @@ public class ListItemFragment extends SherlockFragment {
 		}
 	};
 
-	//CUSTOM CLASSES
+	//Bus row adapter
 	public class BusAdapter extends CursorAdapter {
 
 

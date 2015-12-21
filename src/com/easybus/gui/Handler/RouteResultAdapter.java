@@ -20,6 +20,8 @@ import com.easybus.gui.Object.Nodes;
 import com.easybus.gui.Object.ResultSearchObject;
 import com.google.android.gms.maps.model.LatLng;
 
+
+//Adapter of route finding result
 public class RouteResultAdapter extends BaseAdapter {
 	public Activity a;
 	public ArrayList<ResultSearchObject> myResult = new ArrayList<ResultSearchObject>();
@@ -52,6 +54,7 @@ public class RouteResultAdapter extends BaseAdapter {
 		}
 		// holder.imageFindBus.setBackgroundResource(R.drawable.flag);
 
+		
 		ResultSearchObject object = (ResultSearchObject) getItem(position);
 		for (String element : object.getBusIds()) {
 			if (element.equalsIgnoreCase(Constances.MOVETO)) {
@@ -70,17 +73,21 @@ public class RouteResultAdapter extends BaseAdapter {
 				holder.animation.addView(busId);
 			}
 		}
+		
+		//Compute total distance
 		double distance = calculateRoute(object);
 		Log.d("distance", "" + distance);
 		distance = (double) Math.round(distance * 10) / 10;
 
+		//Compute total cost
 		int totalCost = 0;
 		for (String s : object.getBusIds()) {
 			totalCost += busHelper.getBusCost(s);
 		}
+		// Total cost
 		holder.chi_phi.setText("Chi phí: " + totalCost + "đ");
 		holder.startEndWay.setText(object.getStartEndDeclare());
-		// Tong TG:
+		// Total distance
 		holder.total_time.setText("~" + distance + "km");
 		return row;
 	}

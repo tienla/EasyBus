@@ -3,6 +3,8 @@ package com.easybus.gui.Object;
 import java.util.ArrayList;
 import java.util.List;
 
+
+// Bus line class
 public class Lines {
 
 	private int _id;

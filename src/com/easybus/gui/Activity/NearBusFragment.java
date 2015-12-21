@@ -28,6 +28,8 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.easybus.R;
 import com.easybus.Helper.BusHelper;
 
+
+//Class for show near bus stop list
 public class NearBusFragment extends SherlockFragment {
 	static BusHelper busHelper;
 	Cursor model;
@@ -60,7 +62,7 @@ public class NearBusFragment extends SherlockFragment {
 		//new MyAsyncTask().execute();
 		lv = (ListView) rootView.findViewById(R.id.lvItem);
 		
-		
+		//Thread for searching the near bus stop list
 		new Thread(new Runnable() {
 			public void run() {
 				mHandler.post(new Runnable() {
@@ -119,17 +121,22 @@ public class NearBusFragment extends SherlockFragment {
 
 		}
 	}
-		
+	
+	//Find near bus function
 	private ArrayList<String> findNearBus() {
 		Log.d("Near","1");
     	MainActivity.googleMap.setMyLocationEnabled(true);
 
 		Cursor c = busHelper.getBusStop();
 		Log.d("Near","2");
+		
+		//Set the searching radius is 500 m
 		double nearestDistance = 500;
 		ArrayList<String> array = new ArrayList<String>();
 		Location myLocation = null;
 		int time=0;
+		
+		//Enable my location
 		while (time<500 && myLocation==null){
 			MainActivity.googleMap.setMyLocationEnabled(true);
 			myLocation = MainActivity.googleMap.getMyLocation();
@@ -137,30 +144,27 @@ public class NearBusFragment extends SherlockFragment {
 		}
 		if(c.getCount()>0)
 		{
-			Log.d("Near","3");
 			for(c.moveToFirst();!c.isAfterLast();c.moveToNext())
 			    {
-				Log.d("Near","4");
-			    	//LatLng temp2 = new LatLng(Double.parseDouble(c.getString(4).split("\\|")[1]),Double.parseDouble(c.getString(4).split("\\|")[0]));
-			    	Log.d("Near","5");
+				
+					//Get location of each bus stop
 			    	Location temp1 = new Location("A");
 			    	temp1.setLatitude(Double.parseDouble(c.getString(4).split("\\|")[1]));
 			    	temp1.setLongitude(Double.parseDouble(c.getString(4).split("\\|")[0]));
 			    	if (MainActivity.googleMap.isMyLocationEnabled()){
 				    	try{
+				    		//Compute distance of mylocation to the bus stop location
 				    		double distance  = myLocation.distanceTo(temp1);
-				    		Log.d("Check",""+myLocation.getLatitude());
 					    	if (nearestDistance >= distance){
 					    		String[] list = null;
 					    		list = c.getString(1).split(",");
 					    		for (int i=0; i < list.length; i++){
 					    			if (!array.contains(list[i]))
-					    				Log.d("Neaar",c.getString(3));
 					    				array.add(c.getString(3));
 					    		}
 					    	}
 				    	}catch(Exception e){
-				    		Log.d("Near","6");
+				    		//Exception if GPS is off
 				    		e.printStackTrace();
 				    		Toast.makeText(getActivity(), "GPS chưa được bật", Toast.LENGTH_SHORT);
 				    	}
@@ -178,20 +182,7 @@ public class NearBusFragment extends SherlockFragment {
 	}
 	
 
-	private OnClickListener searchBusListener = new OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			//@duy_del
-//			if (tvTitle.getVisibility() != View.INVISIBLE){
-//				txtBusSearch.setVisibility(View.VISIBLE);
-//				tvTitle.setVisibility(View.INVISIBLE);
-//			} else {
-//				txtBusSearch.setVisibility(View.INVISIBLE);
-//				tvTitle.setVisibility(View.VISIBLE);
-//			}
-		}
-	};
-	
+	//Open fleet over bus list when click on bus stop row
 	private AdapterView.OnItemClickListener onClicked = new OnItemClickListener() {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -210,7 +201,8 @@ public class NearBusFragment extends SherlockFragment {
 		}
 	};
 
-	//CUSTOM CLASSES
+	
+	//Bus stop row adapter
 	public class BusAdapter extends CursorAdapter {
 
 		Cursor c;

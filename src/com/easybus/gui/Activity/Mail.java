@@ -1,8 +1,6 @@
 package com.easybus.gui.Activity;
 
-/**
- * Created by Minh vuong on 30/06/2015.
- */
+//Class for setup mail 
     import android.util.Log;
 
     import java.util.Date;

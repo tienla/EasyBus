@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import android.util.Log;
 
+//Google map find route using google API
 public class GMapV2GetRouteDirection {
     public final static String MODE_DRIVING = "driving";
     public final static String MODE_WALKING = "walking";

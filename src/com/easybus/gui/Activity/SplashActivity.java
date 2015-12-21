@@ -17,6 +17,7 @@ import com.easybus.R;
 import com.easybus.Helper.BusHelper;
 import com.easybus.Util.Constances;
 
+//Greeting screen of the application
 public class SplashActivity extends Activity {
 	BusHelper busHelper;
 	@Override
@@ -37,6 +38,7 @@ public class SplashActivity extends Activity {
 //		}
 	}
 	
+	//Check if GPS is on or off, if off, ask user to turn on
 	public void statusCheck()
     {
         final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
@@ -55,6 +57,7 @@ public class SplashActivity extends Activity {
 
     }
 	
+	//If GPS is on, go to choosing city screen
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -63,6 +66,7 @@ public class SplashActivity extends Activity {
         startActivity(ChooseCityMenu);
 	}
 
+	//Messeage ask user to turn on the GPS
      private void buildAlertMessageNoGps() {
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Bật GPS để sử dụng tốt hơn?")

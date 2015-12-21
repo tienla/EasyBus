@@ -10,6 +10,7 @@ import android.widget.Button;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.easybus.R;
 
+//Bus stop error report view
 public class Chinhsuabendo extends SherlockFragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {

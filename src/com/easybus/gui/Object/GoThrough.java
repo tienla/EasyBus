@@ -1,5 +1,7 @@
 package com.easybus.gui.Object;
 
+
+//List bus route and direction - not been used
 public class GoThrough {
 	private String busLineCode;
 	private String busStopCode;

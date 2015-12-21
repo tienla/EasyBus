@@ -2,6 +2,7 @@ package com.easybus.gui.Object;
 
 import java.util.ArrayList;
 
+//Result object class of a shortest path
 public class ResultSearchObject {
 
 	private String startEndDeclare;

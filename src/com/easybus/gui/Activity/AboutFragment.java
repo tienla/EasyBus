@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.easybus.R;
 
+//Class for about view
 public class AboutFragment extends SherlockFragment {
 	
 	private OnClickListener onClick = new OnClickListener() {

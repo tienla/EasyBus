@@ -30,6 +30,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+//Google map handle
 public final class MapHandle{
 	GoogleMap googleMap = MainActivity.googleMap;
 	Marker currentmarker, startMarker, endMarker ,midMarker;
@@ -66,11 +67,12 @@ public final class MapHandle{
 
 		
 		
-		// hien duong di xe bus
+		// Show bus route
 		if (goGeo != null && reGeo != null) {
 			showBusDetailPath(goGeo,reGeo);
 		}
 		
+		//Show finding shortest path route
 		if (nodeInfo != null){
 			showPath(nodeInfo);
 		}
@@ -98,12 +100,15 @@ public final class MapHandle{
 		MapHandle.reGeo = reGeo;
 		MapHandle.id = id;
 
-		// hien duong di xe bus
+		// Show bus route
 		if (goGeo != null && reGeo != null) {
 			showBusDetailPath(goGeo,reGeo);
 		}
+		
+		//Check if network is on ?
 		isOnline = MainActivity.isNetworkAvailable();
-		// hien lo trinh
+		
+		//Show finding shortest path route
 		if (nodeInfo != null){
 			//showPath(routingGeo);
 			showFindPath(nodeInfo);
@@ -124,16 +129,18 @@ public final class MapHandle{
 		}
 	}
 	
+	//Show go route
 	public void showGoPath(){
 		googleMap.clear();
 
 		ArrayList<LatLng> temp1 = decodeToNode(MapHandle.goGeo);
 		PolylineOptions rectLine1 = new PolylineOptions().width(
-				Constances.POLYLINE_WIDTH).color(Color.RED); //@duy import com.hieund.R
+				Constances.POLYLINE_WIDTH).color(Color.RED); 
 		for (int j = 0; j < temp1.size(); j++) {
 			rectLine1.add(temp1.get(j));
 		}
 		
+		//Add marker corresponding to bus stop
 		for (int j = 0; j < goNodeList.size(); j++) {
 			if (j == 0){
 				startMarker = googleMap.addMarker(new MarkerOptions().position(
@@ -174,6 +181,8 @@ public final class MapHandle{
 
 	}
 	
+	
+//Show return route
 	public void showRePath(){
 		googleMap.clear();
 
@@ -183,7 +192,8 @@ public final class MapHandle{
 		for (int j = 0; j < temp1.size(); j++) {
 			rectLine1.add(temp1.get(j));
 		}
-		
+		//Add marker corresponding to bus stop
+
 		for (int j = 0; j < reNodeList.size(); j++) {
 			if (j == 0){
 				startMarker = googleMap.addMarker(new MarkerOptions().position(
@@ -227,7 +237,7 @@ public final class MapHandle{
 
 	}
 
-
+	//Show bus route
 	private void showBusDetailPath(String goGeo, String reGeo) {
 		ArrayList<LatLng> temp = decodeToNode(goGeo);
 		
@@ -279,7 +289,7 @@ public final class MapHandle{
 	}
 
 
-	
+	//Change the location string in db to route
 	public ArrayList<LatLng> decodeToNode(String str) {
 		if (str == null) str="";
 		ArrayList<LatLng> result = new ArrayList<LatLng>();
@@ -293,6 +303,7 @@ public final class MapHandle{
 		}
 		return result;
 	}
+
 
 	private void showPath(String routingGeo) {
 		ArrayList<LatLng> temp = decodeRoutingPoly(routingGeo);
@@ -312,6 +323,8 @@ public final class MapHandle{
 		}
 		poly3 = googleMap.addPolyline(rectLine);
 	}
+	
+	//Draw shourtest path
 	private void showFindPath(String nodeInfo){
 		Log.d("nodeInfo",nodeInfo);
 		String[] path = nodeInfo.split("\\|");
@@ -327,7 +340,7 @@ public final class MapHandle{
 			int order = i == (path.length-1) ? 99 : i;
 			if (path.length == 1)
 				order = -1;
-			if (busId.equals("W")){
+			if (busId.equals("W")){ //draw walk path
 				drawWalk(start,end,order);
 			}else
 				drawPath(busId,start,end,color,order);
@@ -335,6 +348,7 @@ public final class MapHandle{
 		MainActivity.zoomMapTo(startMarker.getPosition());
 	}
 	ArrayList<Marker> markers = new ArrayList<Marker>();
+	//Draw walk path
 	private void drawWalk(String start, String end, int order) {
 		PolylineOptions rectLine1 = new PolylineOptions().width(
 				Constances.POLYLINE_WIDTH).color(Color.GRAY); 
@@ -393,6 +407,8 @@ public final class MapHandle{
 //		}
 	}
 
+	
+	//Convert string to location
 	private LatLng stringToLatLng(String string) {
 		string = string.replace("(","");
     	string = string.replace(")","");
@@ -401,6 +417,7 @@ public final class MapHandle{
 		return t;
 	}
 
+	//Draw bus path in shortest path
 	private void drawPath(String busId, String start, String end, int color,int order){
 		Cursor c = busHelper.getGeo(busId);
 		c.moveToNext();
@@ -593,6 +610,7 @@ public final class MapHandle{
     LatLng toPosition;
     Document document;
 
+    //Find route between 2 point using google API - must have network
 	 private class GetRouteTask extends AsyncTask<String, Void, String> {
          
          String response = "";
